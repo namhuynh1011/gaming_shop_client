@@ -1,0 +1,94 @@
+.account-page {
+  max-width: 420px;
+  margin: 60px auto 0;
+  background: #fff;
+  padding: 38px 36px 34px 36px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #22335a;
+    letter-spacing: 1px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #22335a;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 11px 14px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #e0e7ef;
+      font-size: 1rem;
+      background: #f7fafd;
+      transition: border 0.2s;
+      &:focus {
+        border: 1.5px solid #364fc7;
+        background: #fff;
+        outline: none;
+      }
+    }
+
+    button {
+      background: linear-gradient(90deg, #304ffe 0%, #1976d2 100%);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 0;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.05rem;
+      cursor: pointer;
+      margin-bottom: 6px;
+      margin-top: 3px;
+      box-shadow: 0 2px 8px rgba(49,79,254,0.06);
+      transition: background 0.17s;
+      &:hover {
+        background: linear-gradient(90deg, #1976d2 0%, #304ffe 100%);
+      }
+    }
+
+    hr {
+      margin: 28px 0 22px;
+      border: none;
+      border-top: 1px solid #e0e7ef;
+    }
+  }
+
+  .form-section-title {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #304ffe;
+    font-size: 1.08rem;
+    letter-spacing: 0.3px;
+  }
+
+  .message {
+    color: #1976d2;
+    margin-top: 8px;
+    font-size: 0.97rem;
+    font-weight: 500;
+    text-align: center;
+  }
+  .error-message {
+    color: #d32f2f;
+    margin-top: 8px;
+    font-size: 0.97rem;
+    font-weight: 500;
+    text-align: center;
+  }
+}
