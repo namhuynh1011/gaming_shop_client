@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateProfile, changePassword } from "../../api/authApi";
-
+import "../../styles/components/Account.scss"; // Import your styles if needed
 function Account() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState({ fullName: "", userName: "", address: "" });

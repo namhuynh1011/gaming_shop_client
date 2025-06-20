@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { login } from "../../api/authApi";
-import "../../styles/Login.scss";
+import "../../styles/components/Login.scss";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // reset lỗi cũ
     try {
       const res = await login(email, password);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      window.location.href = "/"; 
+      window.location.href = "/";
     } catch (err) {
-      alert("Đăng nhập thất bại!");
+      // Lấy message từ backend nếu có
+      let message = "Đăng nhập thất bại!";
+      if (err.response && err.response.data && err.response.data.message) {
+        message = err.response.data.message;
+      }
+      setError(message);
     }
   };
 
@@ -34,6 +42,7 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
+      {error && <div className="login-error">{error}</div>}
       <button type="submit">Đăng nhập</button>
     </form>
   );

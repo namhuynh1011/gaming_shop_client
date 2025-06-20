@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5200/api/ProductAPI";
+const API_URL = "http://localhost:5038/api/ProductAPI";
 
 // Hàm lấy token, bạn có thể chỉnh sửa nếu lưu token ở nơi khác
 const getToken = () => localStorage.getItem("token");
@@ -32,38 +32,41 @@ export const getProductById = (id) => {
   return axiosInstance.get(`/${id}`);
 };
 
-// Thêm sản phẩm mới
+// Thêm sản phẩm mới (có thể có ảnh)
 export const createProduct = (productData) => {
-  return axiosInstance.post("/", productData);
-};
-
-// Cập nhật sản phẩm
-export const updateProduct = (id, productData) => {
-  return axiosInstance.put(`/${id}`, productData);
-};
-
-// Xóa sản phẩm
-export const deleteProduct = (id) => {
-  return axiosInstance.delete(`/${id}`);
-};
-
-// Upload nhiều ảnh cho sản phẩm
-export const uploadProductImages = (productId, files) => {
   const formData = new FormData();
-  files.forEach((file) => formData.append("files", file));
-  return axiosInstance.post(`/${productId}/images`, formData, {
+  formData.append("productName", productData.productName);
+  formData.append("price", productData.price);
+  formData.append("brandId", productData.brandId);
+  formData.append("categoryId", productData.categoryId);
+  if (productData.description) formData.append("description", productData.description);
+  if (productData.imageFile) formData.append("imageFile", productData.imageFile);
+
+  return axiosInstance.post("/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 };
 
-// Lấy danh sách ảnh của sản phẩm
-export const getProductImages = (productId) => {
-  return axiosInstance.get(`/${productId}/images`);
+// Cập nhật sản phẩm (có thể có/không ảnh mới)
+export const updateProduct = (id, productData) => {
+  const formData = new FormData();
+  formData.append("productName", productData.productName);
+  formData.append("price", productData.price);
+  formData.append("brandId", productData.brandId);
+  formData.append("categoryId", productData.categoryId);
+  if (productData.description) formData.append("description", productData.description);
+  if (productData.imageFile) formData.append("imageFile", productData.imageFile);
+
+  return axiosInstance.put(`/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
-// Xóa ảnh sản phẩm
-export const deleteProductImage = (imageId) => {
-  return axiosInstance.delete(`/images/${imageId}`);
+// Xóa sản phẩm
+export const deleteProduct = (id) => {
+  return axiosInstance.delete(`/${id}`);
 };

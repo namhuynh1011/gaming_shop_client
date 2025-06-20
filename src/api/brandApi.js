@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5200/api/BrandAPI";
+const API_URL = "http://localhost:5038/api/BrandAPI";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { register } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
-import "../../styles/Register.scss";
+import "../../styles/components/Register.scss"; // Import your styles if needed
 function Register() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");

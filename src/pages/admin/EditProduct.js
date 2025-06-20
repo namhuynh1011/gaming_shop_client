@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -11,12 +11,12 @@ import {
   Avatar,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { createProduct } from "../../api/productAPI";
+import { getProductById, updateProduct } from "../../api/productAPI";
 import { getAllCategories } from "../../api/categoryApi";
 import { getAllBrands } from "../../api/brandApi";
-import "../../styles/admin/AddProduct.scss";
 
-function ProductAddPage() {
+function ProductEditPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     productName: "",
@@ -29,11 +29,23 @@ function ProductAddPage() {
   const [brands, setBrands] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [oldImageUrl, setOldImageUrl] = useState(null);
 
   useEffect(() => {
     getAllCategories().then((res) => setCategories(res.data));
     getAllBrands().then((res) => setBrands(res.data));
-  }, []);
+    getProductById(id).then((res) => {
+      const p = res.data;
+      setForm({
+        productName: p.productName || "",
+        price: p.price || "",
+        description: p.description || "",
+        categoryId: p.category?.id ? `${p.category.id}` : "",
+        brandId: p.brand?.id ? `${p.brand.id}` : "",
+      });
+      setOldImageUrl(p.imageUrl || null);
+    });
+  }, [id]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -59,18 +71,18 @@ function ProductAddPage() {
         brandId: parseInt(form.brandId),
         imageFile: selectedFile,
       };
-      await createProduct(data);
+      await updateProduct(id, data);
       navigate("/admin/products");
     } catch (err) {
-      alert("Lỗi khi lưu sản phẩm.");
+      alert("Lỗi khi cập nhật sản phẩm.");
     }
   };
 
   return (
-    <Box className="product-add-root">
-      <Paper className="product-add-paper">
+    <Box sx={{ maxWidth: 540, mx: "auto", mt: 4 }}>
+      <Paper sx={{ p: 4 }}>
         <Typography variant="h5" gutterBottom>
-          Thêm sản phẩm mới
+          Sửa sản phẩm
         </Typography>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
@@ -138,9 +150,8 @@ function ProductAddPage() {
               component="label"
               variant="outlined"
               startIcon={<AddPhotoAlternateIcon />}
-              className="product-add-upload-btn"
             >
-              Chọn ảnh sản phẩm
+              Chọn ảnh mới (nếu muốn thay)
               <input
                 type="file"
                 accept="image/*"
@@ -148,22 +159,28 @@ function ProductAddPage() {
                 hidden
               />
             </Button>
-            {preview && (
+            {(preview || oldImageUrl) && (
               <Box display="flex" alignItems="center" gap={1}>
                 <Avatar
                   variant="rounded"
-                  src={preview}
-                  alt="Preview"
+                  src={
+                    preview
+                      ? preview
+                      : oldImageUrl
+                      ? `http://localhost:5038${oldImageUrl}`
+                      : undefined
+                  }
+                  alt={form.productName}
                   sx={{ width: 64, height: 64, border: "1px solid #eee" }}
                 />
                 <Typography variant="body2" color="text.secondary">
-                  {selectedFile && selectedFile.name}
+                  Ảnh đang sử dụng
                 </Typography>
               </Box>
             )}
             <Box>
               <Button type="submit" variant="contained" color="primary">
-                Tạo mới
+                Lưu thay đổi
               </Button>
               <Button
                 variant="text"
@@ -180,4 +197,4 @@ function ProductAddPage() {
   );
 }
 
-export default ProductAddPage;
+export default ProductEditPage;
