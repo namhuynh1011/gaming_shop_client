@@ -55,11 +55,9 @@ function CheckoutPage() {
   const handleOrder = async () => {
     setError("");
     setSuccess("");
-    if (payment === "cod") {
-      if (!form.fullName || !form.phone || !form.address) {
-        setError("Vui lòng nhập đầy đủ họ tên, số điện thoại và địa chỉ.");
-        return;
-      }
+    if (!form.fullName || !form.phone || !form.address) {
+      setError("Vui lòng nhập đầy đủ họ tên, số điện thoại và địa chỉ.");
+      return;
     }
     // Chuẩn bị dữ liệu gửi lên API
     const orderData = {
@@ -90,7 +88,7 @@ function CheckoutPage() {
         navigate("/");
       }, 2000);
     } catch (err) {
-      setError(err.message || "Có lỗi xảy ra, vui lòng thử lại!");
+      setError(err.response?.data?.message || err.message || "Có lỗi xảy ra, vui lòng thử lại!");
     } finally {
       setLoading(false);
     }
@@ -112,6 +110,7 @@ function CheckoutPage() {
           <RadioGroup
             value={payment}
             onChange={(e) => setPayment(e.target.value)}
+            row
           >
             <FormControlLabel
               value="cod"
@@ -121,53 +120,49 @@ function CheckoutPage() {
             <FormControlLabel
               value="vnpay"
               control={<Radio />}
-              label="Thanh toán qua Vnpay"
+              label="Thanh toán qua VNPay"
             />
           </RadioGroup>
         </FormControl>
 
-        {/* Nếu chọn COD thì hiển thị form nhập thông tin nhận hàng */}
-        {payment === "cod" && (
-          <>
-            <TextField
-              label="Họ và tên"
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-              required
-            />
-            <TextField
-              label="Số điện thoại"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-              required
-            />
-            <TextField
-              label="Địa chỉ nhận hàng"
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-              required
-            />
-            <TextField
-              label="Ghi chú (tuỳ chọn)"
-              name="note"
-              value={form.note}
-              onChange={handleChange}
-              fullWidth
-              multiline
-              minRows={2}
-              sx={{ mb: 2 }}
-            />
-          </>
-        )}
+        {/* Form nhận thông tin giao hàng, cho cả COD và VNPAY */}
+        <TextField
+          label="Họ và tên"
+          name="fullName"
+          value={form.fullName}
+          onChange={handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+          required
+        />
+        <TextField
+          label="Số điện thoại"
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+          required
+        />
+        <TextField
+          label="Địa chỉ nhận hàng"
+          name="address"
+          value={form.address}
+          onChange={handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+          required
+        />
+        <TextField
+          label="Ghi chú (tuỳ chọn)"
+          name="note"
+          value={form.note}
+          onChange={handleChange}
+          fullWidth
+          multiline
+          minRows={2}
+          sx={{ mb: 2 }}
+        />
 
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
