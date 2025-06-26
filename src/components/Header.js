@@ -2,15 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
 import { useCart } from "./CartContext";
-import { AppBar, Toolbar, Typography, IconButton, Badge, Box } from "@mui/material";
+import { IconButton, Badge, Box } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 function Header() {
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const adminDropdownRef = useRef(null);
   const navigate = useNavigate();
   const { cart } = useCart();
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
@@ -22,14 +26,17 @@ function Header() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
+      if (adminDropdownRef.current && !adminDropdownRef.current.contains(event.target)) {
+        setAdminDropdownOpen(false);
+      }
     }
-    if (dropdownOpen) {
+    if (dropdownOpen || adminDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownOpen]);
+  }, [dropdownOpen, adminDropdownOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -43,6 +50,8 @@ function Header() {
     navigate("/account");
   };
 
+  const isAdmin = user?.roles?.some(role => role.toLowerCase() === "admin");
+
   return (
     <header className="main-header">
       <div className="container">
@@ -54,19 +63,43 @@ function Header() {
             <Link to="/" className="header-btn">
               Trang chủ
             </Link>
-            <Link to="/admin/products" className="header-btn">
-              Quản lý sản phẩm
+            <Link to="/products" className="header-btn">
+              Sản Phẩm
             </Link>
-            <Link to="/admin/categories" className="header-btn">
-              Quản lý loại Sản Phẩm
+            <Link to="/my-orders" className="header-btn">
+              Đơn Hàng Của Tôi
             </Link>
-            <Link to="/admin/brands" className="header-btn">
-              Quản lý hãng
-            </Link>
-            <Link to="/admin/account" className="header-btn">
-              Quản lý Tài khoản
-            </Link>
-            {/* Có thể thêm nút khác sau này */}
+            {/* Dropdown quản lý cho admin */}
+            {isAdmin && (
+              <div className="header-dropdown" ref={adminDropdownRef} style={{display: "inline-block", position: "relative"}}>
+                <button
+                  className="header-user-btn"
+                  onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
+                  type="button"
+                >
+                  Quản lý <span className="dropdown-arrow">▼</span>
+                </button>
+                {adminDropdownOpen && (
+                  <div className="dropdown-menu" style={{minWidth: 180}}>
+                    <Link to="/admin/products" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                      Sản phẩm
+                    </Link>
+                    <Link to="/admin/categories" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                      Loại Sản Phẩm
+                    </Link>
+                    <Link to="/admin/brands" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                      Hãng
+                    </Link>
+                    <Link to="/admin/account" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                      Tài khoản
+                    </Link>
+                    <Link to="/admin/order" className="dropdown-item" onClick={() => setAdminDropdownOpen(false)}>
+                      Đơn Hàng
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </nav>
         </div>
 
@@ -78,6 +111,7 @@ function Header() {
                 <button
                   className="header-user-btn"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
+                  type="button"
                 >
                   Tài khoản <span className="dropdown-arrow">▼</span>
                 </button>

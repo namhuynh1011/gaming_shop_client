@@ -20,11 +20,70 @@
       font-size: 1.5rem;
       color: #fff;
       text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      &:hover {
+        color: #ffc107;
+      }
     }
 
     .nav-buttons {
       display: flex;
       gap: 10px;
+      position: relative;
+
+      // Dropdown quản lý
+      .header-dropdown {
+        position: relative;
+        display: inline-block;
+
+        .header-user-btn {
+          padding: 5px 15px;
+          background-color: #2563eb;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          font-weight: 500;
+          cursor: pointer;
+          &:hover {
+            background-color: #1d4ed8;
+          }
+        }
+        .dropdown-menu {
+          position: absolute;
+          top: 110%;
+          left: 0;
+          background-color: #fff;
+          color: #222;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          min-width: 180px;
+          z-index: 20;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.11);
+          padding: 0;
+          display: block;
+
+          .dropdown-item {
+            display: block; // QUAN TRỌNG
+            width: 100%; // QUAN TRỌNG
+            box-sizing: border-box; // Đảm bảo padding không làm overflow
+            padding: 10px 20px;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #222;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background 0.2s;
+            white-space: nowrap; // Không cho text xuống dòng
+            &:hover {
+              background-color: #f0f0f0;
+              color: #2653c7;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -36,11 +95,64 @@
     .user-greeting {
       color: #ffc107;
       font-weight: 500;
+      margin-right: 6px;
     }
 
     .guest-buttons {
       display: flex;
       gap: 10px;
+    }
+
+    .header-dropdown {
+      position: relative;
+      display: inline-block;
+
+      .header-user-btn {
+        padding: 5px 15px;
+        background-color: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          background-color: #1d4ed8;
+        }
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 110%;
+        background-color: #fff;
+        color: #222;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        min-width: 180px;
+        z-index: 20;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.11);
+        display: block;
+        padding: 0;
+        .dropdown-item {
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 10px 20px;
+          text-align: left;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: #222;
+          font-size: 1rem;
+          text-decoration: none;
+          transition: background 0.2s;
+          white-space: nowrap;
+          &:hover {
+            background-color: #f0f0f0;
+            color: #2653c7;
+          }
+        }
+      }
     }
   }
 
@@ -53,48 +165,13 @@
     text-decoration: none;
     font-weight: 500;
     transition: 0.3s;
+    outline: none;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: #1d4ed8;
-    }
-  }
-
-  .header-user-btn {
-    padding: 5px 15px;
-    background-color: #2563eb;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-weight: 500;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #1d4ed8;
-    }
-  }
-
-  .dropdown-menu {
-    position: absolute;
-    margin-top: 5px;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    min-width: 150px;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-
-    .dropdown-item {
-      padding: 10px;
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
+      color: #ffc107;
+      text-decoration: none;
     }
   }
 }

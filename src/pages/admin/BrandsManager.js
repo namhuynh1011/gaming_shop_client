@@ -12,43 +12,45 @@ import {
   TableRow,
   Paper,
   Typography,
-  Avatar,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllProducts, deleteProduct } from "../../api/productApi";
+import {
+  getAllBrands,
+  deleteBrand,
+} from "../../api/brandApi";
 
-function ProductManager() {
-  const [products, setProducts] = useState([]);
+function BrandsManager() {
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    fetchProducts();
+    fetchBrands();
     // eslint-disable-next-line
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchBrands = async () => {
     try {
-      const res = await getAllProducts();
-      setProducts(res.data);
+      const res = await getAllBrands();
+      setBrands(res.data);
     } catch (err) {
-      alert("Lỗi khi tải danh sách sản phẩm!");
+      alert("Lỗi khi tải thương hiệu!");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc muốn xóa sản phẩm này không?")) return;
+    if (!window.confirm("Bạn có chắc muốn xóa thương hiệu này không?")) return;
     try {
-      await deleteProduct(id);
-      fetchProducts();
+      await deleteBrand(id);
+      fetchBrands();
     } catch (err) {
-      alert("Lỗi khi xóa sản phẩm!");
+      alert("Lỗi khi xóa thương hiệu!");
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4 }}>
+    <Box sx={{ maxWidth: 800, mx: "auto", mt: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Danh sách Sản phẩm
+        Danh sách thương hiệu
       </Typography>
       <Box sx={{ mb: 2 }}>
         <Button
@@ -56,40 +58,25 @@ function ProductManager() {
           color="primary"
           startIcon={<AddIcon />}
           component={Link}
-          to="/admin/products/add"
+          to="/admin/brands/add"
         >
-          Thêm sản phẩm
+          Thêm thương hiệu
         </Button>
       </Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Tên</TableCell>
-              <TableCell>Giá</TableCell>
-              <TableCell>Danh mục</TableCell>
-              <TableCell>Thương hiệu</TableCell>
-              <TableCell>Ảnh</TableCell>
+              <TableCell>Tên thương hiệu</TableCell>
+              <TableCell>Mô tả</TableCell>
               <TableCell align="center">Thao tác</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((p) => (
-              <TableRow key={p.id}>
-                <TableCell>{p.productName}</TableCell>
-                <TableCell>{p.price?.toLocaleString("vi-VN")}</TableCell>
-                <TableCell>{p.category?.categoryName}</TableCell>
-                <TableCell>{p.brand?.brandName}</TableCell>
-                <TableCell>
-                  {p.imageUrl && (
-                    <Avatar
-                      src={`http://localhost:5038${p.imageUrl}`}
-                      alt={p.productName}
-                      variant="rounded"
-                      sx={{ width: 56, height: 56 }}
-                    />
-                  )}
-                </TableCell>
+            {brands.map((c) => (
+              <TableRow key={c.id}>
+                <TableCell>{c.brandName}</TableCell>
+                <TableCell>{c.description}</TableCell>
                 <TableCell align="center">
                   <Button
                     variant="outlined"
@@ -97,7 +84,7 @@ function ProductManager() {
                     startIcon={<EditIcon />}
                     size="small"
                     component={Link}
-                    to={`/admin/products/edit/${p.id}`}
+                    to={`/admin/brands/edit/${c.id}`}
                     sx={{ mr: 1 }}
                   >
                     Sửa
@@ -106,7 +93,7 @@ function ProductManager() {
                     variant="outlined"
                     color="error"
                     startIcon={<DeleteIcon />}
-                    onClick={() => handleDelete(p.id)}
+                    onClick={() => handleDelete(c.id)}
                     size="small"
                   >
                     Xóa
@@ -114,10 +101,10 @@ function ProductManager() {
                 </TableCell>
               </TableRow>
             ))}
-            {products.length === 0 && (
+            {brands.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} align="center">
-                  Không có sản phẩm nào.
+                <TableCell colSpan={3} align="center">
+                  Không có thương hiệu nào.
                 </TableCell>
               </TableRow>
             )}
@@ -128,4 +115,4 @@ function ProductManager() {
   );
 }
 
-export default ProductManager;
+export default BrandsManager;

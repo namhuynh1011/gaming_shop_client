@@ -11,7 +11,7 @@ import {
   Avatar,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { getProductById, updateProduct } from "../../api/productAPI";
+import { getProductById, updateProduct } from "../../api/productApi";
 import { getAllCategories } from "../../api/categoryApi";
 import { getAllBrands } from "../../api/brandApi";
 

@@ -11,7 +11,7 @@ import {
   Avatar,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { createProduct } from "../../api/productAPI";
+import { createProduct } from "../../api/productApi";
 import { getAllCategories } from "../../api/categoryApi";
 import { getAllBrands } from "../../api/brandApi";
 import "../../styles/admin/AddProduct.scss";

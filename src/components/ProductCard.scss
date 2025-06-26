@@ -1,0 +1,48 @@
+.card-product {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  border: 1px solid #ececec;
+  transition: box-shadow 0.2s, transform 0.2s;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+    transform: translateY(-4px) scale(1.02);
+    border-color: #1976d2;
+  }
+
+  .MuiCardMedia-root {
+    border-radius: 12px 12px 0 0;
+    object-fit: contain;
+    background: #fafafa;
+    padding: 8px 0;
+    min-height: 190px;
+  }
+
+  .MuiCardContent-root {
+    flex: 1;
+    padding: 16px;
+
+    .product-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #222;
+    }
+  }
+
+  .MuiCardActions-root {
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 16px;
+    padding-top: 0;
+
+    .MuiButton-root {
+      min-width: 120px;
+      font-size: 0.85rem;
+      text-transform: none;
+    }
+  }
+}

@@ -4,3 +4,6 @@ export {default as ProductEditPage} from './EditProduct';
 export {default as CategoriesManager} from './CategoriesManager';
 export {default as CategoryAddPage} from './AddCategory';
 export {default as UserManager} from './UserManager';
+export {default as BrandsManager} from './BrandsManager';
+export {default as BrandAddPage} from './AddBrand';
+export {default as AdminOrdersPage} from './AdminOrdersPage';

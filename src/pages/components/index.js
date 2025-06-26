@@ -4,3 +4,6 @@ export {default as Home} from "./Home";
 export {default as Account} from "./Account";
 export {default as CartPage} from "./CartPage";
 export {default as CheckoutPage} from "./CheckoutPage";
+export {default as ProductsDetailPage} from "./ProductDetailPage";
+export {default as ProductPage} from "./ProductPage";
+export {default as MyOrders} from "./MyOrders";

@@ -65,7 +65,7 @@ function CheckoutPage() {
       phone: form.phone,
       address: form.address,
       note: form.note,
-      paymentMethod: payment,
+      paymentMethod: payment, // payment có thể là cod, vnpay, momo
       items: cart.map((item) => ({
         productId: item.id,
         productName: item.productName,
@@ -77,8 +77,8 @@ function CheckoutPage() {
     setLoading(true);
     try {
       const result = await addOrder(orderData);
-      if (payment === "vnpay" && result.redirectUrl) {
-        // Nếu trả về link VNPAY thì redirect
+      // Thêm xử lý cho MoMo giống như VNPay
+      if ((payment === "vnpay" || payment === "momo") && result.redirectUrl) {
         window.location.href = result.redirectUrl;
         return;
       }
@@ -122,10 +122,15 @@ function CheckoutPage() {
               control={<Radio />}
               label="Thanh toán qua VNPay"
             />
+            <FormControlLabel
+              value="momo"
+              control={<Radio />}
+              label="Thanh toán qua MoMo"
+            />
           </RadioGroup>
         </FormControl>
 
-        {/* Form nhận thông tin giao hàng, cho cả COD và VNPAY */}
+        {/* Form nhận thông tin giao hàng, cho cả COD, VNPAY và MOMO */}
         <TextField
           label="Họ và tên"
           name="fullName"
