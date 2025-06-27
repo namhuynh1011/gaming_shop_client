@@ -70,3 +70,16 @@ export const updateProduct = (id, productData) => {
 export const deleteProduct = (id) => {
   return axiosInstance.delete(`/${id}`);
 };
+
+export const setProductHidden = (id, isHidden) => {
+  // isHidden: true (ẩn), false (hiện)
+  return axiosInstance.put(
+    `/${id}/hide`,
+    isHidden,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
